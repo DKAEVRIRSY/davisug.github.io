@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grool Comment Section</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .phone-container {
+            width: 375px;
+            height: 667px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            margin: 40px auto;
+        }
+        
+        .comment-section {
+            padding: 20px;
+        }
+        
+        .comment {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .comment-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .comment-timestamp {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+        }
+        
+        .new-comment {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        
+        .new-comment input[type="email"] {
+            width: 70%;
+            height: 30px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .new-comment input[type="text"] {
+            width: 70%;
+            height: 30px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .new-comment button[type="button"] {
+            width: 20%;
+            height: 30px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        .new-comment button[type="button"]:hover {
+            background-color: #3e8e41;
+        }
+        
+        .grool-button {
+            background-color: #ff69b4;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="comment-section">
+            <input type="email" id="visitor-email" placeholder="Enter your email">
+            <div id="comments"></div>
+            <div class="new-comment">
+                <input type="text" id="comment-input" placeholder="Type a comment...">
+                <button type="button" id="comment-button" class="grool-button">Grool</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const commentsDiv = document.getElementById('comments');
+        const commentInput = document.getElementById('comment-input');
+        const commentButton = document.getElementById('comment-button');
+        const visitorEmailInput = document.getElementById('visitor-email');
+
+        let comments = [];
+        let visitorEmail = '';
+
+        visitorEmailInput.addEventListener('input', () => {
+            visitorEmail = visitorEmailInput.value;
+        });
+
+        function renderComment(comment) {
+            const commentHtml = `
+                <div class="comment">
+                    <span class="comment-author">${visitorEmail}</span>
+                    <span class="comment-text">${comment.text}</span>
+                    <span class="comment-timestamp">${comment.timestamp}</span>
+                </div>
+            `;
+            return commentHtml;
+        }
+
+        function renderComments() {
+            commentsDiv.innerHTML = '';
+            comments.forEach(comment => {
+                const commentHtml = renderComment(comment);
+                commentsDiv.insertAdjacentHTML('beforeend', commentHtml);
+            });
+        }
+
+        commentButton.addEventListener('click', () => {
+            if (visitorEmail) {
+                const newComment = {
+                    text: commentInput.value,
+                    timestamp: new Date().toLocaleTimeString()
+                };
+                comments.push(newComment);
+                commentInput.value = '';
+                renderComments();
+            } else {
+                alert('Please enter your email');
+            }
+        });
+
+        renderComments();
+    </script>
+</body>
+</html>
+```
